@@ -38,6 +38,7 @@ exports.UpdateCategory=(category_name,category_id)=>{
     });
 }
 
+//delete category  by category id
 exports.DeleteCategory=(category_id)=>{
     return new Promise((resolve,reject)=>{
         db.query("delete from categories where category_id=?",[category_id],(err,result)=>{
