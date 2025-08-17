@@ -1,41 +1,63 @@
 let db=require("../../db.js");
 
-exports.AddUser=(user_name,user_email,password,created_at,role) => {
-    return new Promise((resolve,reject)=>{
-        db.query("insert into user (user_name,user_email,password,created_at,role) values (?,?,?,?,?)",[user_name,user_email,password,created_at,role],(err,result)=>{
-            if(err){
-                reject(err);
-            }
-            else{
-                resolve("User Added SuccessFully");
-            }
-        });
-    })
-}
+exports.AddUser = (Name, Email, password, Date, role) => {
+  return new Promise((resolve, reject) => {
+    db.query("INSERT INTO users (Name, Email, password, Date, role) VALUES (?, ?, ?, ?, ?)",
+      [Name, Email, password, Date, role],
+      (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve({ message: "User Registered Successfully" });
+        }
+      }
+    );
+  });
+};
 
-exports.getuser=()=>{
-    return new Promise((resolve,reject)=>{
-        db.query("select * from user",(err,result)=>{
-            if(err){
-                reject(err);
+//login admin
+exports.loginUser = (Email, password) => {
+    return new Promise((resolve, reject) => {
+        db.query(
+            "SELECT Email, password, role FROM users WHERE Email = ? AND password = ? AND role = 'admin'",
+            [Email, password],
+            (err, results) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(results);
+                }
             }
-            else{
-                resolve(result);
-            }
-        })
-    })
-}
+        );
+    });
+};
 
-exports.DeleteUser=(user_id)=>{
-    return new Promise((resolve,reject)=>{
-        db.query("delete from user where user_id=?",[user_id],(err,result)=>{
-            if(err){
-                reject(err)
-            }
-            else{
-                resolve("User Delete Successfully..."+result.affectedRows);
-            }
-        })
-    })
-}
+//view users
+exports.getAllUsers = () => {
+  return new Promise((resolve, reject) => {
+    db.query("SELECT * FROM users", (err, results) => {
+      if (err) reject(err);
+      else resolve(results);
+    });
+  });
+};
+
+
+
+
+
+
+//delete users
+exports.DeleteUser = (user_id) => {
+  return new Promise((resolve, reject) => {
+    db.query("DELETE FROM users WHERE id = ?", [user_id], (err, result) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve({ message: "User Deleted Successfully", affectedRows: result.affectedRows });
+      }
+    });
+  });
+};
+
 
