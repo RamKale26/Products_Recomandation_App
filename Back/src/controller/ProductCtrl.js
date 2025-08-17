@@ -1,8 +1,8 @@
 let productModel = require("../models/ProductModel");
 
 exports.addProduct = (req, res) => {
-    let { name, description, price, image_url ,category_id } = req.body;
-    productModel.addProduct(name, description, price, image_url ,category_id)
+    let { Name, description, price, image_url ,category_id } = req.body;
+    productModel.addProduct(Name, description, price, image_url ,category_id)
         .then((result) => {
             res.send(result);
         })

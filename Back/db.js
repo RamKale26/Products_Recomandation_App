@@ -8,14 +8,13 @@ let conn=mysql.createConnection({
     database:process.env.db_name
 });
 
-conn.connect((err)=>{
-    if(err)
-    {
-        console.log("Databases Not Connected..");
-    }
-    else{
-        console.log("Database Connected Sucessfully...");
+conn.connect((err) => {
+    if (err) {
+        console.error("Database Not Connected:", err.message);
+    } else {
+        console.log("Database Connected Successfully...");
     }
 });
+
 
 module.exports=conn;
